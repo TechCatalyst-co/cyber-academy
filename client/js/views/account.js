@@ -1,6 +1,6 @@
 // Account: profile summary and password change.
 import { post } from '../api.js';
-import { esc, fmt, toast, pageHead } from '../ui.js';
+import { esc, fmt, toast, pageHead, passwordInput } from '../ui.js';
 import { state } from '../app.js';
 
 export async function view() {
@@ -10,8 +10,8 @@ export async function view() {
     <form class="card stack" style="max-width:520px" data-form novalidate>
       <div class="card-head" style="margin:0"><h2>Change password</h2></div>
       ${u.must_change_password ? '<div class="notice">You are using a temporary password. Choose your own now.</div>' : ''}
-      <div class="field"><label for="cur">Current password</label><input class="input" id="cur" name="current" type="password" autocomplete="current-password" required></div>
-      <div class="field"><label for="nw">New password</label><input class="input" id="nw" name="next" type="password" autocomplete="new-password" minlength="10" required><span class="hint">At least 10 characters. A passphrase of three or four random words works well.</span></div>
+      <div class="field"><label for="cur">Current password</label>${passwordInput('id="cur" name="current" autocomplete="current-password" required')}</div>
+      <div class="field"><label for="nw">New password</label>${passwordInput('id="nw" name="next" autocomplete="new-password" minlength="10" required')}<span class="hint">At least 10 characters. A passphrase of three or four random words works well.</span></div>
       <p class="error" data-err hidden></p>
       <div><button class="btn btn-primary" type="submit">Update password</button></div>
     </form>

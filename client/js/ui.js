@@ -48,7 +48,29 @@ export const icons = {
   right: I('<path d="M5 12h14M12 5l7 7-7 7"/>'),
   close: I('<path d="M18 6 6 18M6 6l12 12"/>'),
   stamp: I('<path d="M5 21h14M6 17h12l-1-4H7zM9 13V9a3 3 0 1 1 6 0v4"/>'),
+  eye: I('<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'),
+  eyeOff: I('<path d="M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-2.6 3.4M6.6 6.6A17 17 0 0 0 2 12s3.6 7 10 7a9.7 9.7 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2M3 3l18 18"/>'),
 };
+
+// Password input with a show/hide toggle. `attrs` is the rest of the input's attribute string.
+export function passwordInput(attrs) {
+  return `<div class="pw"><input class="input" type="password" ${attrs}><button type="button" class="pw-toggle" data-reveal aria-label="Show password" aria-pressed="false">${icons.eye}</button></div>`;
+}
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest?.('[data-reveal]');
+    if (!btn) return;
+    const input = btn.parentElement.querySelector('input');
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    btn.innerHTML = show ? icons.eyeOff : icons.eye;
+    btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+    btn.setAttribute('aria-pressed', String(show));
+  });
+  // Re-mask when a form is reset so a revealed password field starts hidden again.
+  document.addEventListener('reset', (e) => e.target.querySelectorAll('[data-reveal][aria-pressed="true"]').forEach((b) => b.click()));
+}
 
 // Brand files: served from /brand in the app, inlined as data URIs in the demo build.
 export function asset(name) {

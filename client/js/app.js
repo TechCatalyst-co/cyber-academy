@@ -1,6 +1,6 @@
 // App shell: session, navigation rail, hash router.
 import { api, get, post, session, setUnauthorizedHandler } from './api.js';
-import { esc, fmt, icons, toast, asset } from './ui.js';
+import { esc, fmt, icons, toast, asset, passwordInput } from './ui.js';
 import * as provider from './views/provider.js';
 import * as company from './views/company.js';
 import * as employees from './views/employees.js';
@@ -189,7 +189,7 @@ function renderLogin(app) {
       <form class="login-box" id="login" novalidate>
         <div class="stack" style="gap:6px"><h2>Sign in</h2><p class="muted">Use the work email your administrator registered.</p></div>
         <div class="field"><label for="email">Work email</label><input class="input" id="email" name="email" type="email" autocomplete="username" required></div>
-        <div class="field"><label for="password">Password</label><input class="input" id="password" name="password" type="password" autocomplete="current-password" required></div>
+        <div class="field"><label for="password">Password</label>${passwordInput('id="password" name="password" autocomplete="current-password" required')}</div>
         <p class="error" id="login-error" role="alert" hidden></p>
         <button class="btn btn-primary" type="submit">Sign in</button>
         ${demo ? `<div class="stack" style="gap:10px;margin-top:10px"><h3>Try a demo account</h3><div class="demo-accounts">${demo.map((a) => `<button type="button" class="demo-acct" data-email="${esc(a.email)}"><span class="avatar">${esc(fmt.initials(a.role))}</span><span style="min-width:0"><b>${esc(a.role)}</b><div class="r">${esc(a.company)}</div></span><span class="go">${icons.right.replace('<svg', '<svg class="ic"')}</span></button>`).join('')}</div></div>` : ''}
